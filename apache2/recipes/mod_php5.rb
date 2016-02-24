@@ -21,13 +21,13 @@ when 'rhel'
   end
 
   # replace with debian config
-  template File.join(node[:apache][:dir], 'mods-available', 'php5.conf') do
+  template File.join(node[:apache][:dir], 'mods-available', 'php7.0.conf') do
     source 'mods/php5.conf.erb'
     notifies :restart, "service[apache2]"
   end
 end
 
-apache_module 'php5' do
+apache_module 'php7.0' do
   if platform_family?('rhel')
     filename 'libphp5.so'
   end
