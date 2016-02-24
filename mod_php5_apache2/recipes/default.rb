@@ -1,5 +1,7 @@
 include_recipe 'apache2'
 
+Chef::Resource::User.send(:include, Utils::Helper)
+
 ["build-essential",
   "python-software-properties",
   "git"
@@ -12,12 +14,12 @@ end
 # add php 7.0 repository
 execute "add-apt-repository" do
   command "add-apt-repository ppa:ondrej/php"
-  only_if { false }
+  only_if { missing_php? }
 end
 
 execute "apt-get update" do
   command "sudo apt-get update"
-  only_if { false }
+  only_if { missing_php? }
 end
 
 node[:mod_php5_apache2][:packages].each do |pkg|
