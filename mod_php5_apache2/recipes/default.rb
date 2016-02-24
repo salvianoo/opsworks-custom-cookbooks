@@ -12,12 +12,12 @@ end
 # add php 7.0 repository
 execute "add-apt-repository" do
   command "add-apt-repository ppa:ondrej/php"
-  only_if { php_version }
+  only_if { false }
 end
 
 execute "apt-get update" do
   command "sudo apt-get update"
-  only_if { php_version }
+  only_if { false }
 end
 
 node[:mod_php5_apache2][:packages].each do |pkg|
