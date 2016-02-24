@@ -1,5 +1,9 @@
 include_recipe 'apache2'
 
+def php_version(version)
+  system "php -v | grep -qs 'PHP #{version}'"
+end
+
 ["build-essential",
   "python-software-properties",
   "git"
@@ -12,10 +16,12 @@ include_recipe 'apache2'
 # add php 7.0 repository
 execute "add-apt-repository" do
   command "add-apt-repository ppa:ondrej/php"
+  only_if { php_version(5) }
 end
 
 execute "apt-get update" do
   command "sudo apt-get update"
+  only_if { php_version(5) }
 end
 
 node[:mod_php5_apache2][:packages].each do |pkg|
