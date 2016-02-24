@@ -8,11 +8,5 @@ normal[:mod_php5_apache2][:packages] = [
     "php7.0-cli",
     "php7.0-sasl",
     "php7.0-mcrypt",
-    "php7.0-memcache",
-    "php-pear",
-    "php-xml-parser",
-    "php-mail-mime",
-    "php-db",
-    "php-mdb2",
-    "php-html-common"
+    "php7.0-memcache"
 ]
