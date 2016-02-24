@@ -1,6 +1,6 @@
 include_recipe 'apache2'
 
-Chef::Resource::User.send(:include, Utils::Helper)
+include Chef::Mixin::ShellOut
 
 ["build-essential",
   "python-software-properties",
@@ -14,12 +14,20 @@ end
 # add php 7.0 repository
 execute "add-apt-repository" do
   command "add-apt-repository ppa:ondrej/php"
-  only_if { missing_php? }
+  only_if do
+    # missing php
+    version = 7
+    !shell_out!("php -v | grep -qs 'PHP #{version}'")
+  end
 end
 
 execute "apt-get update" do
   command "sudo apt-get update"
-  only_if { missing_php? }
+  only_if do
+    # missing php
+    version = 7
+    !shell_out!("php -v | grep -qs 'PHP #{version}'")
+  end
 end
 
 node[:mod_php5_apache2][:packages].each do |pkg|
