@@ -3,4 +3,5 @@ package 'php-mysql' do
     'rhel'   => 'php-mysql',
     'debian' => 'php7.0-mysql'
   )
+  options '--force-yes'
 end
