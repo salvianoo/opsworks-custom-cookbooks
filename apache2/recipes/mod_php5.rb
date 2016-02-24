@@ -6,6 +6,7 @@ case node[:platform_family]
 when 'debian'
   package 'libapache2-mod-php7.0' do
     action :install
+    options '--force-yes'
   end
 when 'rhel'
   package 'php' do
