@@ -12,28 +12,12 @@ end
 # add php 7.0 repository
 execute "add-apt-repository" do
   command "add-apt-repository ppa:ondrej/php"
-  only_if do
-    ruby_block "check missing php" do
-      block do
-        include Chef::Mixin::ShellOut
-        version = 7
-        !shell_out!("php -v | grep -qs 'PHP #{version}'")
-      end
-    end
-  end
+  not_if "php -v | grep -qs 'PHP 7'" # check missing php
 end
 
 execute "apt-get update" do
   command "sudo apt-get update"
-  only_if do
-    ruby_block do
-      block "check missing php" do
-        include Chef::Mixin::ShellOut
-        version = 7
-        !shell_out!("php -v | grep -qs 'PHP #{version}'")
-      end
-    end
-  end
+  not_if "php -v | grep -qs 'PHP 7'" # check missing php
 end
 
 node[:mod_php5_apache2][:packages].each do |pkg|
