@@ -13,9 +13,8 @@ end
 execute "add-apt-repository" do
   command "add-apt-repository ppa:ondrej/php"
   only_if do
-    ruby_block do
+    ruby_block "check missing php" do
       block do
-        # missing php
         include Chef::Mixin::ShellOut
         version = 7
         !shell_out!("php -v | grep -qs 'PHP #{version}'")
@@ -28,8 +27,7 @@ execute "apt-get update" do
   command "sudo apt-get update"
   only_if do
     ruby_block do
-      block do
-        # missing php
+      block "check missing php" do
         include Chef::Mixin::ShellOut
         version = 7
         !shell_out!("php -v | grep -qs 'PHP #{version}'")
