@@ -1,7 +1,5 @@
 include_recipe 'apache2'
 
-include Chef::Mixin::ShellOut
-
 ["build-essential",
   "python-software-properties",
   "git"
@@ -15,18 +13,28 @@ end
 execute "add-apt-repository" do
   command "add-apt-repository ppa:ondrej/php"
   only_if do
-    # missing php
-    version = 7
-    !shell_out!("php -v | grep -qs 'PHP #{version}'")
+    ruby_block do
+      block do
+        # missing php
+        include Chef::Mixin::ShellOut
+        version = 7
+        !shell_out!("php -v | grep -qs 'PHP #{version}'")
+      end
+    end
   end
 end
 
 execute "apt-get update" do
   command "sudo apt-get update"
   only_if do
-    # missing php
-    version = 7
-    !shell_out!("php -v | grep -qs 'PHP #{version}'")
+    ruby_block do
+      block do
+        # missing php
+        include Chef::Mixin::ShellOut
+        version = 7
+        !shell_out!("php -v | grep -qs 'PHP #{version}'")
+      end
+    end
   end
 end
 
